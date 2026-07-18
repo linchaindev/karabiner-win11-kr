@@ -1,0 +1,50 @@
+#!/bin/bash
+# karabiner-win11-kr : Karabiner-Elements 설치 + Windows 11 한국어 키보드 세팅 자동 적용
+# https://github.com/linchaindev/karabiner-win11-kr
+set -e
+
+echo "== 1/5 Homebrew 확인 =="
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew 미설치 → 설치 진행"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+echo "== 2/5 Karabiner-Elements 설치 =="
+if ! brew list --cask karabiner-elements >/dev/null 2>&1 && [ ! -d "/Applications/Karabiner-Elements.app" ]; then
+  brew install --cask karabiner-elements
+else
+  echo "이미 설치됨 → 건너뜀"
+fi
+
+echo "== 3/5 설정 배포 =="
+if [ -d ~/.config/karabiner ]; then
+  BAK=~/.config/karabiner.bak-$(date +%Y%m%d-%H%M%S)
+  mv ~/.config/karabiner "$BAK"
+  echo "기존 설정 백업: $BAK"
+fi
+TMPDIR_KWK=$(mktemp -d)
+PAYLOAD_B64="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"
+echo "$PAYLOAD_B64" | base64 -d | tar xz -C "$TMPDIR_KWK"
+mkdir -p ~/.config/karabiner/assets
+cp "$TMPDIR_KWK/karabiner.json" ~/.config/karabiner/karabiner.json
+cp -R "$TMPDIR_KWK/complex_modifications" ~/.config/karabiner/assets/
+rm -rf "$TMPDIR_KWK"
+echo "karabiner.json + 룰 파일 배포 완료"
+
+echo "== 4/5 시스템 설정 =="
+defaults write com.apple.HIToolbox AppleFnUsageType -int 1        # 지구본 키 = 입력 소스 변경
+defaults write com.apple.HIToolbox TISRomanSwitchState -int 0     # Caps Lock ABC 전환 끄기
+echo "지구본 키=입력 소스 변경, Caps Lock 한영전환 비활성 적용 (재로그인 후 확실히 반영)"
+
+echo "== 5/5 Karabiner 실행 (권한 승인 유도) =="
+open -a "Karabiner-Elements"
+
+cat <<'CHECKLIST'
+
+---- 수동으로 해야 하는 것 ----
+1. 시스템 설정 팝업에서 드라이버(시스템 확장) 허용
+2. 개인정보 보호 및 보안 → 입력 모니터링에서 karabiner_grabber 허용
+3. (선택) 시스템 설정 → Spotlight → Clipboard 켜기  <- Cmd+Shift+V 클립보드 히스토리용
+--------------------------------
+CHECKLIST

@@ -1,0 +1,43 @@
+{
+    "title": "Cmd+Shift+V → Spotlight 클립보드 히스토리 (macOS 26 Tahoe)",
+    "rules": [
+        {
+            "description": "Cmd+Shift+V로 Spotlight 클립보드 히스토리 열기 (Win+V 스타일)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "v",
+                        "modifiers": {
+                            "mandatory": [
+                                "command",
+                                "shift"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "spacebar",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        },
+                        {
+                            "key_code": "vk_none",
+                            "hold_down_milliseconds": 200
+                        },
+                        {
+                            "key_code": "4",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
