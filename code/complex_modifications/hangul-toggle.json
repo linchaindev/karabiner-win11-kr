@@ -1,0 +1,53 @@
+{
+    "title": "한영·한자 v5 (우측 Cmd=한영, 우측 Alt=한자, Win11 방식)",
+    "rules": [
+        {
+            "description": "오른쪽 Command = 순수 한영키 (지구본 fn 탭, 즉시 발동)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_command",
+                        "modifiers": {
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "fn"
+                        },
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "오른쪽 Option(Alt) = 한자키 (option+Return, Win11 방식)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_option",
+                        "modifiers": {
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "return_or_enter",
+                            "modifiers": [
+                                "left_option"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
