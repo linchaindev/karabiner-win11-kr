@@ -8,6 +8,10 @@
 
 ## English
 
+[![karabiner-win11-kr demo](demo/poster-en.png)](https://linchaindev.github.io/karabiner-win11-kr/demo/)
+
+▶︎ **[Watch the demo](https://linchaindev.github.io/karabiner-win11-kr/demo/)** — every feature in one continuous 70-second take, with English subtitles. Runs right in your browser.
+
 A set of [Karabiner-Elements](https://karabiner-elements.pqrs.org/) configurations for Korean users who moved from Windows to macOS. It lets you use the 한/영 (Hangul/English) key, Hanja key, NumLock, and Ctrl shortcuts with the exact same muscle memory you had on Windows 11.
 
 It's especially handy if you plug an external keyboard with a numeric keypad into a MacBook — the NumLock toggle and keypad cursor navigation (Home/End/PgUp/PgDn/arrows/Del) come back to life just like on Windows, so that keypad stops being dead weight. And because Korean/English switching rides the native macOS input-source path, the IME never gets stuck — the switch is seamless, even mid-sentence.
@@ -84,6 +88,9 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 │       ├── numpad-numlock-toggle.json # NumLock toggle
 │       ├── spotlight-clipboard.json   # clipboard history
 │       └── fn-longpress.json          # F1~F12 short/long dual action
+├── demo/                          # browser-playable feature demo (no install needed)
+│   ├── index.html                 # English subtitles
+│   └── ko.html                    # Korean subtitles
 └── release/
     └── v1/
         └── setup-karabiner.sh     # automatic install script (config embedded, single file)
@@ -116,6 +123,10 @@ MIT
 ## 한국어
 
 **Windows 11 한국어 키보드 습관을 macOS에 그대로 이식하는 Karabiner-Elements 설정**
+
+[![karabiner-win11-kr 데모](demo/poster-ko.png)](https://linchaindev.github.io/karabiner-win11-kr/demo/ko.html)
+
+▶︎ **[데모 영상 보기](https://linchaindev.github.io/karabiner-win11-kr/demo/ko.html)** — 모든 기능을 70초 한 컷에 담았습니다. 브라우저에서 바로 재생됩니다.
 
 윈도우를 오래 쓰다 맥으로 넘어온 한국어 사용자를 위한 설정 모음입니다. 한영키·한자키·NumLock·Ctrl 단축키를 윈도우와 동일한 감각으로 쓸 수 있습니다.
 
@@ -193,6 +204,9 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 │       ├── numpad-numlock-toggle.json # NumLock 토글
 │       ├── spotlight-clipboard.json   # 클립보드 히스토리
 │       └── fn-longpress.json          # F1~F12 숏/롱 이중 동작
+├── demo/                          # 브라우저에서 바로 보는 기능 데모 (설치 불필요)
+│   ├── index.html                 # 영문 자막
+│   └── ko.html                    # 한글 자막
 └── release/
     └── v1/
         └── setup-karabiner.sh     # 자동 설치 스크립트 (설정 내장, 단일 파일)
