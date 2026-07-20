@@ -22,6 +22,7 @@ It's especially handy if you plug an external keyboard with a numeric keypad int
 | **Ctrl+C / X / V** | Copy / Cut / Paste | In Finder, Ctrl+X → Ctrl+V even performs a **file move** |
 | **Ctrl+A/Z/Y/S/F/N/T/W/P/R/L/O** | Select all / Undo / Redo / Save / Find / New window / New tab / Close tab / Print / Reload / Address bar / Open | Shift combos preserved (Ctrl+Shift+T to reopen a closed tab, etc.) |
 | **Cmd+Shift+V** | Clipboard history | The Win+V equivalent. Uses the Spotlight clipboard on macOS 26 Tahoe |
+| **F1~F12** | Short press = function key, long press (200ms) = brightness/volume/media | Windows-style F-keys by default, macOS special keys when held. Brightness and volume keep repeating while held. F6 is left untouched |
 
 ### Design principles
 
@@ -81,7 +82,8 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 │       ├── hangul-toggle.json         # 한/영 key + Hanja key
 │       ├── windows-style-copy.json    # Ctrl shortcuts + Finder file move
 │       ├── numpad-numlock-toggle.json # NumLock toggle
-│       └── spotlight-clipboard.json   # clipboard history
+│       ├── spotlight-clipboard.json   # clipboard history
+│       └── fn-longpress.json          # F1~F12 short/long dual action
 └── release/
     └── v1/
         └── setup-karabiner.sh     # automatic install script (config embedded, single file)
@@ -101,6 +103,8 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 | Caps Lock also switches Korean/English | System Settings → Keyboard → Edit input sources → turn off "Use Caps Lock to switch to and from ABC" (the script applies this automatically but a re-login may be needed) |
 | NumLock toggle doesn't respond | Depending on the keyboard, NumLock arrives as `keypad_num_lock` or `keypad_clear`. Both are mapped, but if it still fails, check the actual key_code with Karabiner-EventViewer |
 | Cmd+Shift+V doesn't appear | Requires macOS 26 Tahoe or later + System Settings → Spotlight → Clipboard enabled. If you changed the Spotlight shortcut away from Cmd+Space, the rule needs editing |
+| A short F-key press still triggers brightness/volume | System Settings → Keyboard → turn on "Use F1, F2, etc. keys as standard function keys". The hardware fn key still works as before |
+| Long press feels too slow/fast | Change both `basic.to_if_alone_timeout_milliseconds` and `basic.to_if_held_down_threshold_milliseconds` in `fn-longpress.json` (default 200) |
 | Rules don't work at all | Check Karabiner's Input Monitoring permission and whether the driver was approved |
 
 ### License
@@ -127,6 +131,7 @@ MIT
 | **Ctrl+C / X / V** | 복사 / 잘라내기 / 붙여넣기 | Finder에서는 Ctrl+X → Ctrl+V로 **파일 이동**까지 지원 |
 | **Ctrl+A/Z/Y/S/F/N/T/W/P/R/L/O** | 전체선택/실행취소/재실행/저장/찾기/새창/새탭/탭닫기/인쇄/새로고침/주소창/열기 | Shift 조합 유지 (Ctrl+Shift+T 닫은 탭 복구 등) |
 | **Cmd+Shift+V** | 클립보드 히스토리 | Win+V 대응. macOS 26 Tahoe의 Spotlight 클립보드 사용 |
+| **F1~F12** | 짧게 = 펑션키, 길게(200ms) = 밝기/볼륨/미디어 | 평소엔 윈도우처럼 F키, 꾹 누르면 macOS 특수키. 밝기·볼륨은 누르고 있는 동안 연속 반복. F6은 건드리지 않음 |
 
 ### 설계 원칙
 
@@ -186,7 +191,8 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 │       ├── hangul-toggle.json         # 한영키·한자키
 │       ├── windows-style-copy.json    # Ctrl 단축키 + Finder 파일 이동
 │       ├── numpad-numlock-toggle.json # NumLock 토글
-│       └── spotlight-clipboard.json   # 클립보드 히스토리
+│       ├── spotlight-clipboard.json   # 클립보드 히스토리
+│       └── fn-longpress.json          # F1~F12 숏/롱 이중 동작
 └── release/
     └── v1/
         └── setup-karabiner.sh     # 자동 설치 스크립트 (설정 내장, 단일 파일)
@@ -206,6 +212,8 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 | Caps Lock으로도 한영이 전환됨 | 시스템 설정 → 키보드 → 입력 소스 편집 → "Caps Lock 키로 ABC 입력 소스 전환" 끄기 (스크립트가 자동 적용하지만 재로그인 필요할 수 있음) |
 | NumLock 토글이 안 먹음 | 키보드마다 NumLock이 `keypad_num_lock` 또는 `keypad_clear`로 들어옵니다. 둘 다 매핑돼 있지만, 그래도 안 되면 Karabiner-EventViewer로 실제 key_code를 확인하세요 |
 | Cmd+Shift+V가 안 뜸 | macOS 26 Tahoe 이상 + 시스템 설정 → Spotlight → Clipboard 활성화 필요. Spotlight 단축키를 Cmd+Space에서 바꿨다면 룰 수정 필요 |
+| F키를 짧게 눌러도 밝기·볼륨이 동작 | 시스템 설정 → 키보드 → "F1, F2 등의 키를 표준 기능 키로 사용" 켜기. 하드웨어 fn 키는 그대로 동작합니다 |
+| 길게 누르는 시간이 길거나 짧음 | `fn-longpress.json`의 `basic.to_if_alone_timeout_milliseconds`와 `basic.to_if_held_down_threshold_milliseconds`를 함께 조정 (기본 200) |
 | 룰이 아예 안 먹음 | Karabiner 입력 모니터링 권한, 드라이버 승인 여부 확인 |
 
 ### 라이선스
