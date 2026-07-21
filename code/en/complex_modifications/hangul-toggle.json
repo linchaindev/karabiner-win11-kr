@@ -1,0 +1,53 @@
+{
+    "title": "Korean/English · Hanja v5 (Right Cmd=Korean/English, Right Alt=Hanja, Win11 style)",
+    "rules": [
+        {
+            "description": "Right Command = Korean/English toggle (globe fn tap, fires instantly)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_command",
+                        "modifiers": {
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "fn"
+                        },
+                        {
+                            "key_code": "vk_none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "Right Option (Alt) = Hanja key (option+Return, Win11 style)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_option",
+                        "modifiers": {
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "return_or_enter",
+                            "modifiers": [
+                                "left_option"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

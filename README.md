@@ -89,20 +89,24 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 ### 폴더 구조
 
 ```
-├── code/                          # 카라비너 설정 원본
+├── code/                          # 카라비너 설정 원본 (룰 설명 한글)
 │   ├── karabiner.json             # 전체 룰이 활성화된 완성 설정
-│   └── complex_modifications/     # 룰별 개별 파일 (선택 설치용)
-│       ├── hangul-toggle.json         # 한영키·한자키
-│       ├── windows-style-copy.json    # Ctrl 단축키 + Finder 파일 이동
-│       ├── numpad-numlock-toggle.json # NumLock 토글
-│       ├── spotlight-clipboard.json   # 클립보드 히스토리
-│       └── fn-longpress.json          # F1~F12 숏/롱 이중 동작
+│   ├── complex_modifications/     # 룰별 개별 파일 (선택 설치용)
+│   │   ├── hangul-toggle.json         # 한영키·한자키
+│   │   ├── windows-style-copy.json    # Ctrl 단축키 + Finder 파일 이동
+│   │   ├── numpad-numlock-toggle.json # NumLock 토글
+│   │   ├── spotlight-clipboard.json   # 클립보드 히스토리
+│   │   └── fn-longpress.json          # F1~F12 숏/롱 이중 동작
+│   └── en/                        # 룰 설명만 영문인 동일 설정 (매핑 동일, 비한국어 사용자용)
+│       ├── karabiner.json
+│       └── complex_modifications/
 ├── demo/                          # 브라우저에서 바로 보는 기능 데모 (설치 불필요)
 │   ├── index.html                 # 영문 자막
 │   └── ko.html                    # 한글 자막
 └── release/
     └── v1/
-        └── setup-karabiner.sh     # 자동 설치 스크립트 (설정 내장, 단일 파일)
+        ├── setup-karabiner.sh        # 한글 설명 설치 스크립트 (설정 내장)
+        └── setup-karabiner-en.sh     # 영문 설명 설치 스크립트 (설정 내장)
 ```
 
 ### 커스터마이즈
@@ -143,8 +147,10 @@ MIT
 > From any folder. Paste this single line into the terminal and it installs Karabiner, deploys the config, and applies the system settings — all the way through.
 >
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner-en.sh | bash
 > ```
+>
+> This installer ships the **English-labeled config** (`code/en/`) — the rules read in English inside the Karabiner UI. The key mappings are identical to the Korean version; only the labels differ. (Korean speakers: use [the Korean installer](#한국어).)
 
 A set of [Karabiner-Elements](https://karabiner-elements.pqrs.org/) configurations for Korean users who moved from Windows to macOS. It lets you use the 한/영 (Hangul/English) key, Hanja key, NumLock, and Ctrl shortcuts with the exact same muscle memory you had on Windows 11.
 
@@ -180,8 +186,10 @@ It's especially handy if you plug an external keyboard with a numeric keypad int
 #### Option 1: Automatic install script (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
+curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner-en.sh | bash
 ```
+
+This deploys `code/en/` — the rules are labeled in English inside Karabiner, but the mappings match the Korean config exactly.
 
 What the script does:
 
@@ -196,13 +204,13 @@ What the script does:
 ```bash
 git clone https://github.com/linchaindev/karabiner-win11-kr.git
 mkdir -p ~/.config/karabiner/assets
-cp karabiner-win11-kr/code/karabiner.json ~/.config/karabiner/
-cp -R karabiner-win11-kr/code/complex_modifications ~/.config/karabiner/assets/
+cp karabiner-win11-kr/code/en/karabiner.json ~/.config/karabiner/
+cp -R karabiner-win11-kr/code/en/complex_modifications ~/.config/karabiner/assets/
 defaults write com.apple.HIToolbox AppleFnUsageType -int 1
 defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 ```
 
-> If you already have a Karabiner config, back up `~/.config/karabiner` first — `karabiner.json` gets replaced wholesale. To keep your existing rules, copy only the files in `code/complex_modifications/` into `~/.config/karabiner/assets/complex_modifications/`, then pick the rules you want from Karabiner UI → Complex Modifications → Add rule.
+> Paths use `code/en/` for the English-labeled config; swap in `code/` for the Korean labels. If you already have a Karabiner config, back up `~/.config/karabiner` first — `karabiner.json` gets replaced wholesale. To keep your existing rules, copy only the files in `code/en/complex_modifications/` into `~/.config/karabiner/assets/complex_modifications/`, then pick the rules you want from Karabiner UI → Complex Modifications → Add rule.
 
 #### Manual steps after install (macOS security blocks automating these)
 
@@ -215,28 +223,32 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 
 ```
 ├── code/                          # Karabiner config sources
-│   ├── karabiner.json             # complete config with all rules enabled
-│   └── complex_modifications/     # per-rule files (for selective install)
-│       ├── hangul-toggle.json         # 한/영 key + Hanja key
-│       ├── windows-style-copy.json    # Ctrl shortcuts + Finder file move
-│       ├── numpad-numlock-toggle.json # NumLock toggle
-│       ├── spotlight-clipboard.json   # clipboard history
-│       └── fn-longpress.json          # F1~F12 short/long dual action
+│   ├── karabiner.json             # complete config, rules labeled in Korean
+│   ├── complex_modifications/     # per-rule files (Korean labels)
+│   │   ├── hangul-toggle.json         # 한/영 key + Hanja key
+│   │   ├── windows-style-copy.json    # Ctrl shortcuts + Finder file move
+│   │   ├── numpad-numlock-toggle.json # NumLock toggle
+│   │   ├── spotlight-clipboard.json   # clipboard history
+│   │   └── fn-longpress.json          # F1~F12 short/long dual action
+│   └── en/                        # same config, rules labeled in English (identical mappings)
+│       ├── karabiner.json
+│       └── complex_modifications/
 ├── demo/                          # browser-playable feature demo (no install needed)
 │   ├── index.html                 # English subtitles
 │   └── ko.html                    # Korean subtitles
 └── release/
     └── v1/
-        └── setup-karabiner.sh     # automatic install script (config embedded, single file)
+        ├── setup-karabiner.sh        # Korean-labeled installer (config embedded)
+        └── setup-karabiner-en.sh     # English-labeled installer (config embedded)
 ```
 
 ### Customization
 
 **Every feature can be toggled on and off individually.** In Karabiner-Elements → Complex Modifications, flip the switch on just the rules you want and turn off the ones you don't — it applies instantly, no app restart needed.
 
-![Per-feature on/off toggles](demo/toggles.png)
+![Per-feature on/off toggles](demo/toggles-en.png)
 
-- **Want only some features?** Install the files in `code/complex_modifications/` individually (see Option 2 above).
+- **Want only some features?** Install the files in `code/en/complex_modifications/` individually (see Option 2 above).
 - **Editing the terminal/IDE exception list**: add or remove an app's bundle ID in the `bundle_identifiers` array of `windows-style-copy.json`. Find a bundle ID with `osascript -e 'id of app "AppName"'`.
 - **Adding a Ctrl-mapped key**: copy one of the manipulators in `windows-style-copy.json` and just change the `key_code`.
 

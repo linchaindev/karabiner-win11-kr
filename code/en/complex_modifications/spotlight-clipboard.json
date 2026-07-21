@@ -1,0 +1,43 @@
+{
+    "title": "Cmd+Shift+V → Spotlight clipboard history (macOS 26 Tahoe)",
+    "rules": [
+        {
+            "description": "Open Spotlight clipboard history with Cmd+Shift+V (Win+V style)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "v",
+                        "modifiers": {
+                            "mandatory": [
+                                "command",
+                                "shift"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "spacebar",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        },
+                        {
+                            "key_code": "vk_none",
+                            "hold_down_milliseconds": 200
+                        },
+                        {
+                            "key_code": "4",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
