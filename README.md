@@ -107,6 +107,10 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 
 ### 커스터마이즈
 
+**모든 기능은 하나씩 껐다 켤 수 있습니다.** Karabiner-Elements → Complex Modifications에서 원하는 룰만 스위치로 켜고, 안 쓰는 룰은 끄면 됩니다. 앱 재시작도 필요 없이 즉시 적용됩니다.
+
+![기능별 on/off 토글](demo/toggles.png)
+
 - **일부 기능만 쓰고 싶다면**: `code/complex_modifications/`의 파일을 개별 설치하세요 (위 방법 2 참고).
 - **터미널·IDE 예외 목록 수정**: `windows-style-copy.json`의 `bundle_identifiers` 배열에 앱의 번들 ID를 추가/제거하면 됩니다. 번들 ID는 `osascript -e 'id of app "앱이름"'`으로 확인할 수 있습니다.
 - **Ctrl 매핑 키 추가**: `windows-style-copy.json`의 manipulator 하나를 복사해서 `key_code`만 바꾸면 됩니다.
@@ -227,6 +231,10 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 ```
 
 ### Customization
+
+**Every feature can be toggled on and off individually.** In Karabiner-Elements → Complex Modifications, flip the switch on just the rules you want and turn off the ones you don't — it applies instantly, no app restart needed.
+
+![Per-feature on/off toggles](demo/toggles.png)
 
 - **Want only some features?** Install the files in `code/complex_modifications/` individually (see Option 2 above).
 - **Editing the terminal/IDE exception list**: add or remove an app's bundle ID in the `bundle_identifiers` array of `windows-style-copy.json`. Find a bundle ID with `osascript -e 'id of app "AppName"'`.
