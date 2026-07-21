@@ -1,0 +1,810 @@
+{
+    "title": "Windows-style Ctrl shortcuts v3 (A/Z/Y/S/F/N/T/W/P/R/L/O/C/X/V, Finder move support, terminals · IDEs excluded)",
+    "rules": [
+        {
+            "description": "[Priority 1] Finder: Ctrl+C copy / Ctrl+X cut / Ctrl+V paste · move",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "c",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$"
+                            ]
+                        }
+                    ],
+                    "to": [
+                        {
+                            "key_code": "c",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        },
+                        {
+                            "set_variable": {
+                                "name": "finder_cut",
+                                "value": 0
+                            }
+                        },
+                        {
+                            "set_notification_message": {
+                                "id": "finder_cut",
+                                "text": ""
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "x",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$"
+                            ]
+                        }
+                    ],
+                    "to": [
+                        {
+                            "key_code": "c",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        },
+                        {
+                            "set_variable": {
+                                "name": "finder_cut",
+                                "value": 1
+                            }
+                        },
+                        {
+                            "set_notification_message": {
+                                "id": "finder_cut",
+                                "text": "Cut — paste to move"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "v",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$"
+                            ]
+                        },
+                        {
+                            "type": "variable_if",
+                            "name": "finder_cut",
+                            "value": 1
+                        }
+                    ],
+                    "to": [
+                        {
+                            "key_code": "v",
+                            "modifiers": [
+                                "left_command",
+                                "left_option"
+                            ]
+                        },
+                        {
+                            "set_variable": {
+                                "name": "finder_cut",
+                                "value": 0
+                            }
+                        },
+                        {
+                            "set_notification_message": {
+                                "id": "finder_cut",
+                                "text": ""
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "v",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$"
+                            ]
+                        }
+                    ],
+                    "to": [
+                        {
+                            "key_code": "v",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "[Priority 2] Apps: Ctrl+A/Z/Y/S/F/N/T/W/P/R/L/O/C/X/V → same Cmd key (terminals · IDEs excluded, Shift combos preserved)",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "a",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "a",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "z",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "z",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "y",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "z",
+                            "modifiers": [
+                                "left_command",
+                                "left_shift"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "s",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "s",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "f",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "f",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "n",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "n",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "t",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "t",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "w",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "w",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "p",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "p",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "r",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "r",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "l",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "l",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "o",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "o",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "c",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "c",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$",
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "x",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "x",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$",
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "v",
+                        "modifiers": {
+                            "mandatory": [
+                                "control"
+                            ],
+                            "optional": [
+                                "shift",
+                                "caps_lock"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "v",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$",
+                                "^com\\.apple\\.Terminal$",
+                                "^com\\.googlecode\\.iterm2$",
+                                "^net\\.kovidgoyal\\.kitty$",
+                                "^com\\.github\\.wez\\.wezterm$",
+                                "^dev\\.warp\\.",
+                                "^com\\.mitchellh\\.ghostty$",
+                                "^org\\.alacritty$",
+                                "^co\\.zeit\\.hyper$",
+                                "^com\\.microsoft\\.VSCode$",
+                                "^com\\.todesktop\\.",
+                                "^com\\.jetbrains\\.",
+                                "^com\\.google\\.android\\.studio"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
