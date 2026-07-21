@@ -2,121 +2,7 @@
 
 **Windows 11 Korean keyboard habits on macOS, powered by [Karabiner-Elements](https://karabiner-elements.pqrs.org/).**
 
-[English](#english) · [한국어](#한국어)
-
----
-
-## English
-
-[![karabiner-win11-kr demo](demo/poster-en.png)](https://linchaindev.github.io/karabiner-win11-kr/demo/)
-
-▶︎ **[Watch the demo](https://linchaindev.github.io/karabiner-win11-kr/demo/)** — every feature in one continuous 70-second take, with English subtitles. Runs right in your browser.
-
-A set of [Karabiner-Elements](https://karabiner-elements.pqrs.org/) configurations for Korean users who moved from Windows to macOS. It lets you use the 한/영 (Hangul/English) key, Hanja key, NumLock, and Ctrl shortcuts with the exact same muscle memory you had on Windows 11.
-
-It's especially handy if you plug an external keyboard with a numeric keypad into a MacBook — the NumLock toggle and keypad cursor navigation (Home/End/PgUp/PgDn/arrows/Del) come back to life just like on Windows, so that keypad stops being dead weight. And because Korean/English switching rides the native macOS input-source path, the IME never gets stuck — the switch is seamless, even mid-sentence.
-
-### Features
-
-| Key | Action | Notes |
-|---|---|---|
-| **Right Cmd** (right of the spacebar) | Toggle Korean/English | Same spot as the Windows 한/영 key. Won't jam even when mashed quickly or overlapped with the next key |
-| **Right Opt (Alt)** | Hanja conversion | Press right after typing Hangul to pull up the Hanja candidate list (same as the Windows Hanja key) |
-| **NumLock (Clear)** | Toggle keypad mode | Switches between number entry ↔ cursor movement (Home/End/PgUp/PgDn/arrows/Del). Shows a notification on toggle |
-| **Ctrl+C / X / V** | Copy / Cut / Paste | In Finder, Ctrl+X → Ctrl+V even performs a **file move** |
-| **Ctrl+A/Z/Y/S/F/N/T/W/P/R/L/O** | Select all / Undo / Redo / Save / Find / New window / New tab / Close tab / Print / Reload / Address bar / Open | Shift combos preserved (Ctrl+Shift+T to reopen a closed tab, etc.) |
-| **Cmd+Shift+V** | Clipboard history | The Win+V equivalent. Uses the Spotlight clipboard on macOS 26 Tahoe |
-| **F1~F12** | Short press = function key, long press (200ms) = brightness/volume/media | Windows-style F-keys by default, macOS special keys when held. Brightness and volume keep repeating while held. F6 is left untouched |
-
-### Design principles
-
-- **Terminals and IDEs are left untouched** — In Terminal, iTerm2, kitty, WezTerm, Warp, Ghostty, Alacritty, Hyper, VS Code, Cursor, and JetBrains apps, the original behavior of Ctrl+C (SIGINT) and friends is preserved.
-- **Korean/English switching uses the native path** — Instead of changing the input source directly via API, it fires a globe (fn) key event so it rides the native macOS switching path. This avoids the classic problem of the IME state getting confused in browser input fields.
-- **The 한/영 key fires instantly** — The switch completes the moment you press the key, so even with fast-typing habits where you hit the next character before releasing the 한/영 key, Cmd combos won't misfire.
-- **Cmd shortcuts stay intact** — All macOS default shortcuts like Cmd+C/V and Cmd+Tab keep working. You can press either Ctrl or Cmd.
-
-### Requirements
-
-- macOS (Apple Silicon / Intel)
-- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) — the install script sets it up for you automatically
-- Clipboard history (Cmd+Shift+V) requires macOS 26 Tahoe or later (all other features are version-independent)
-
-### Installation
-
-#### Option 1: Automatic install script (recommended)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
-```
-
-What the script does:
-
-1. Checks for Homebrew (installs it if missing)
-2. Installs Karabiner-Elements (skips if already present)
-3. Backs up your existing Karabiner config, then deploys this one
-4. Applies system settings automatically — globe key = change input source, Caps Lock Korean/English toggle off
-5. Launches Karabiner (which prompts the permission-approval popup)
-
-#### Option 2: Manual install
-
-```bash
-git clone https://github.com/linchaindev/karabiner-win11-kr.git
-mkdir -p ~/.config/karabiner/assets
-cp karabiner-win11-kr/code/karabiner.json ~/.config/karabiner/
-cp -R karabiner-win11-kr/code/complex_modifications ~/.config/karabiner/assets/
-defaults write com.apple.HIToolbox AppleFnUsageType -int 1
-defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
-```
-
-> If you already have a Karabiner config, back up `~/.config/karabiner` first — `karabiner.json` gets replaced wholesale. To keep your existing rules, copy only the files in `code/complex_modifications/` into `~/.config/karabiner/assets/complex_modifications/`, then pick the rules you want from Karabiner UI → Complex Modifications → Add rule.
-
-#### Manual steps after install (macOS security blocks automating these)
-
-1. Approve the driver (system extension) popup
-2. System Settings → Privacy & Security → Input Monitoring → allow `karabiner_grabber`
-3. (Optional) System Settings → Spotlight → turn on **Clipboard** — for Cmd+Shift+V
-4. System Settings → Keyboard → Input Sources: confirm only Korean (2-set) and ABC are present — a third input source can throw off the toggle cycle
-
-### Folder structure
-
-```
-├── code/                          # Karabiner config sources
-│   ├── karabiner.json             # complete config with all rules enabled
-│   └── complex_modifications/     # per-rule files (for selective install)
-│       ├── hangul-toggle.json         # 한/영 key + Hanja key
-│       ├── windows-style-copy.json    # Ctrl shortcuts + Finder file move
-│       ├── numpad-numlock-toggle.json # NumLock toggle
-│       ├── spotlight-clipboard.json   # clipboard history
-│       └── fn-longpress.json          # F1~F12 short/long dual action
-├── demo/                          # browser-playable feature demo (no install needed)
-│   ├── index.html                 # English subtitles
-│   └── ko.html                    # Korean subtitles
-└── release/
-    └── v1/
-        └── setup-karabiner.sh     # automatic install script (config embedded, single file)
-```
-
-### Customization
-
-- **Want only some features?** Install the files in `code/complex_modifications/` individually (see Option 2 above).
-- **Editing the terminal/IDE exception list**: add or remove an app's bundle ID in the `bundle_identifiers` array of `windows-style-copy.json`. Find a bundle ID with `osascript -e 'id of app "AppName"'`.
-- **Adding a Ctrl-mapped key**: copy one of the manipulators in `windows-style-copy.json` and just change the `key_code`.
-
-### Troubleshooting
-
-| Symptom | Fix |
-|---|---|
-| Korean/English won't switch | System Settings → Keyboard → check that "Press 🌐 key to" is set to **Change Input Source** |
-| Caps Lock also switches Korean/English | System Settings → Keyboard → Edit input sources → turn off "Use Caps Lock to switch to and from ABC" (the script applies this automatically but a re-login may be needed) |
-| NumLock toggle doesn't respond | Depending on the keyboard, NumLock arrives as `keypad_num_lock` or `keypad_clear`. Both are mapped, but if it still fails, check the actual key_code with Karabiner-EventViewer |
-| Cmd+Shift+V doesn't appear | Requires macOS 26 Tahoe or later + System Settings → Spotlight → Clipboard enabled. If you changed the Spotlight shortcut away from Cmd+Space, the rule needs editing |
-| A short F-key press still triggers brightness/volume | System Settings → Keyboard → turn on "Use F1, F2, etc. keys as standard function keys". The hardware fn key still works as before |
-| Long press feels too slow/fast | Change both `basic.to_if_alone_timeout_milliseconds` and `basic.to_if_held_down_threshold_milliseconds` in `fn-longpress.json` (default 200) |
-| Rules don't work at all | Check Karabiner's Input Monitoring permission and whether the driver was approved |
-
-### License
-
-MIT
+[한국어](#한국어) · [English](#english)
 
 ---
 
@@ -231,5 +117,119 @@ defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
 | 룰이 아예 안 먹음 | Karabiner 입력 모니터링 권한, 드라이버 승인 여부 확인 |
 
 ### 라이선스
+
+MIT
+
+---
+
+## English
+
+[![karabiner-win11-kr demo](demo/poster-en.png)](https://linchaindev.github.io/karabiner-win11-kr/demo/)
+
+▶︎ **[Watch the demo](https://linchaindev.github.io/karabiner-win11-kr/demo/)** — every feature in one continuous 70-second take, with English subtitles. Runs right in your browser.
+
+A set of [Karabiner-Elements](https://karabiner-elements.pqrs.org/) configurations for Korean users who moved from Windows to macOS. It lets you use the 한/영 (Hangul/English) key, Hanja key, NumLock, and Ctrl shortcuts with the exact same muscle memory you had on Windows 11.
+
+It's especially handy if you plug an external keyboard with a numeric keypad into a MacBook — the NumLock toggle and keypad cursor navigation (Home/End/PgUp/PgDn/arrows/Del) come back to life just like on Windows, so that keypad stops being dead weight. And because Korean/English switching rides the native macOS input-source path, the IME never gets stuck — the switch is seamless, even mid-sentence.
+
+### Features
+
+| Key | Action | Notes |
+|---|---|---|
+| **Right Cmd** (right of the spacebar) | Toggle Korean/English | Same spot as the Windows 한/영 key. Won't jam even when mashed quickly or overlapped with the next key |
+| **Right Opt (Alt)** | Hanja conversion | Press right after typing Hangul to pull up the Hanja candidate list (same as the Windows Hanja key) |
+| **NumLock (Clear)** | Toggle keypad mode | Switches between number entry ↔ cursor movement (Home/End/PgUp/PgDn/arrows/Del). Shows a notification on toggle |
+| **Ctrl+C / X / V** | Copy / Cut / Paste | In Finder, Ctrl+X → Ctrl+V even performs a **file move** |
+| **Ctrl+A/Z/Y/S/F/N/T/W/P/R/L/O** | Select all / Undo / Redo / Save / Find / New window / New tab / Close tab / Print / Reload / Address bar / Open | Shift combos preserved (Ctrl+Shift+T to reopen a closed tab, etc.) |
+| **Cmd+Shift+V** | Clipboard history | The Win+V equivalent. Uses the Spotlight clipboard on macOS 26 Tahoe |
+| **F1~F12** | Short press = function key, long press (200ms) = brightness/volume/media | Windows-style F-keys by default, macOS special keys when held. Brightness and volume keep repeating while held. F6 is left untouched |
+
+### Design principles
+
+- **Terminals and IDEs are left untouched** — In Terminal, iTerm2, kitty, WezTerm, Warp, Ghostty, Alacritty, Hyper, VS Code, Cursor, and JetBrains apps, the original behavior of Ctrl+C (SIGINT) and friends is preserved.
+- **Korean/English switching uses the native path** — Instead of changing the input source directly via API, it fires a globe (fn) key event so it rides the native macOS switching path. This avoids the classic problem of the IME state getting confused in browser input fields.
+- **The 한/영 key fires instantly** — The switch completes the moment you press the key, so even with fast-typing habits where you hit the next character before releasing the 한/영 key, Cmd combos won't misfire.
+- **Cmd shortcuts stay intact** — All macOS default shortcuts like Cmd+C/V and Cmd+Tab keep working. You can press either Ctrl or Cmd.
+
+### Requirements
+
+- macOS (Apple Silicon / Intel)
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) — the install script sets it up for you automatically
+- Clipboard history (Cmd+Shift+V) requires macOS 26 Tahoe or later (all other features are version-independent)
+
+### Installation
+
+#### Option 1: Automatic install script (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
+```
+
+What the script does:
+
+1. Checks for Homebrew (installs it if missing)
+2. Installs Karabiner-Elements (skips if already present)
+3. Backs up your existing Karabiner config, then deploys this one
+4. Applies system settings automatically — globe key = change input source, Caps Lock Korean/English toggle off
+5. Launches Karabiner (which prompts the permission-approval popup)
+
+#### Option 2: Manual install
+
+```bash
+git clone https://github.com/linchaindev/karabiner-win11-kr.git
+mkdir -p ~/.config/karabiner/assets
+cp karabiner-win11-kr/code/karabiner.json ~/.config/karabiner/
+cp -R karabiner-win11-kr/code/complex_modifications ~/.config/karabiner/assets/
+defaults write com.apple.HIToolbox AppleFnUsageType -int 1
+defaults write com.apple.HIToolbox TISRomanSwitchState -int 0
+```
+
+> If you already have a Karabiner config, back up `~/.config/karabiner` first — `karabiner.json` gets replaced wholesale. To keep your existing rules, copy only the files in `code/complex_modifications/` into `~/.config/karabiner/assets/complex_modifications/`, then pick the rules you want from Karabiner UI → Complex Modifications → Add rule.
+
+#### Manual steps after install (macOS security blocks automating these)
+
+1. Approve the driver (system extension) popup
+2. System Settings → Privacy & Security → Input Monitoring → allow `karabiner_grabber`
+3. (Optional) System Settings → Spotlight → turn on **Clipboard** — for Cmd+Shift+V
+4. System Settings → Keyboard → Input Sources: confirm only Korean (2-set) and ABC are present — a third input source can throw off the toggle cycle
+
+### Folder structure
+
+```
+├── code/                          # Karabiner config sources
+│   ├── karabiner.json             # complete config with all rules enabled
+│   └── complex_modifications/     # per-rule files (for selective install)
+│       ├── hangul-toggle.json         # 한/영 key + Hanja key
+│       ├── windows-style-copy.json    # Ctrl shortcuts + Finder file move
+│       ├── numpad-numlock-toggle.json # NumLock toggle
+│       ├── spotlight-clipboard.json   # clipboard history
+│       └── fn-longpress.json          # F1~F12 short/long dual action
+├── demo/                          # browser-playable feature demo (no install needed)
+│   ├── index.html                 # English subtitles
+│   └── ko.html                    # Korean subtitles
+└── release/
+    └── v1/
+        └── setup-karabiner.sh     # automatic install script (config embedded, single file)
+```
+
+### Customization
+
+- **Want only some features?** Install the files in `code/complex_modifications/` individually (see Option 2 above).
+- **Editing the terminal/IDE exception list**: add or remove an app's bundle ID in the `bundle_identifiers` array of `windows-style-copy.json`. Find a bundle ID with `osascript -e 'id of app "AppName"'`.
+- **Adding a Ctrl-mapped key**: copy one of the manipulators in `windows-style-copy.json` and just change the `key_code`.
+
+### Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Korean/English won't switch | System Settings → Keyboard → check that "Press 🌐 key to" is set to **Change Input Source** |
+| Caps Lock also switches Korean/English | System Settings → Keyboard → Edit input sources → turn off "Use Caps Lock to switch to and from ABC" (the script applies this automatically but a re-login may be needed) |
+| NumLock toggle doesn't respond | Depending on the keyboard, NumLock arrives as `keypad_num_lock` or `keypad_clear`. Both are mapped, but if it still fails, check the actual key_code with Karabiner-EventViewer |
+| Cmd+Shift+V doesn't appear | Requires macOS 26 Tahoe or later + System Settings → Spotlight → Clipboard enabled. If you changed the Spotlight shortcut away from Cmd+Space, the rule needs editing |
+| A short F-key press still triggers brightness/volume | System Settings → Keyboard → turn on "Use F1, F2, etc. keys as standard function keys". The hardware fn key still works as before |
+| Long press feels too slow/fast | Change both `basic.to_if_alone_timeout_milliseconds` and `basic.to_if_held_down_threshold_milliseconds` in `fn-longpress.json` (default 200) |
+| Rules don't work at all | Check Karabiner's Input Monitoring permission and whether the driver was approved |
+
+### License
 
 MIT
