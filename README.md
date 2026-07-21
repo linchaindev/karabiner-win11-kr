@@ -14,6 +14,13 @@
 
 ▶︎ **[데모 영상 보기](https://linchaindev.github.io/karabiner-win11-kr/demo/ko.html)** — 모든 기능을 70초 한 컷에 담았습니다. 브라우저에서 바로 재생됩니다.
 
+> ### ⚡ 터미널에 한 줄, 설치 끝
+> 어느 폴더에서든 상관없습니다. 아래 한 줄을 터미널에 붙여넣으면 Karabiner 설치부터 설정 배포·시스템 옵션 적용까지 자동으로 끝납니다.
+>
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
+> ```
+
 윈도우를 오래 쓰다 맥으로 넘어온 한국어 사용자를 위한 설정 모음입니다. 한영키·한자키·NumLock·Ctrl 단축키를 윈도우와 동일한 감각으로 쓸 수 있습니다.
 
 특히 맥북에 숫자 키패드가 달린 외장 키보드를 연결해 쓰는 분에게 유용합니다 — NumLock 토글과 키패드 커서 이동(Home/End/PgUp/PgDn/화살표/Del)이 윈도우처럼 살아나 놀리던 키패드를 제대로 쓰게 됩니다. 한영 전환도 macOS 네이티브 입력 소스 경로를 타기 때문에 IME가 꼬이지 않고 문장 도중에도 매끄럽게 넘어갑니다.
@@ -127,6 +134,13 @@ MIT
 [![karabiner-win11-kr demo](demo/poster-en.png)](https://linchaindev.github.io/karabiner-win11-kr/demo/)
 
 ▶︎ **[Watch the demo](https://linchaindev.github.io/karabiner-win11-kr/demo/)** — every feature in one continuous 70-second take, with English subtitles. Runs right in your browser.
+
+> ### ⚡ One line in the terminal — done
+> From any folder. Paste this single line into the terminal and it installs Karabiner, deploys the config, and applies the system settings — all the way through.
+>
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/linchaindev/karabiner-win11-kr/main/release/v1/setup-karabiner.sh | bash
+> ```
 
 A set of [Karabiner-Elements](https://karabiner-elements.pqrs.org/) configurations for Korean users who moved from Windows to macOS. It lets you use the 한/영 (Hangul/English) key, Hanja key, NumLock, and Ctrl shortcuts with the exact same muscle memory you had on Windows 11.
 
